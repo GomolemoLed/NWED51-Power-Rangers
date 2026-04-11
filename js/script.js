@@ -44,3 +44,49 @@ async function fetchCountryData(countryName) {
     return null;
   }
 }
+
+// ===== COUNTRY SEARCH =====
+let allCards = [];
+
+// ===== DISPLAY COUNTRY CARDS =====
+async function displayCountries() {
+  const container = document.getElementById("countries-container");
+  container.innerHTML = "<p>Loading countries...</p>";
+
+  allCards = await Promise.all(sadcCountries.map(async (country) => {
+    const apiData = await fetchCountryData(country.name);
+    return { ...country, apiData };
+  }));
+
+  renderCards(allCards);
+}
+
+function renderCards(cards) {
+  const container = document.getElementById("countries-container");
+  container.innerHTML = "";
+
+  cards.forEach(({ name, known, bestTime, image, apiData }) => {
+    const capital = apiData?.capital?.[0] || "N/A";
+    const population = apiData?.population?.toLocaleString() || "N/A";
+    const currency = apiData
+      ? Object.values(apiData.currencies)[0]?.name + " (" + Object.keys(apiData.currencies)[0] + ")"
+      : "N/A";
+    const language = apiData
+      ? Object.values(apiData.languages).join(", ")
+      : "N/A";
+
+    const card = document.createElement("div");
+    card.classList.add("country-card");
+    card.innerHTML = `
+      <img src="${image}" alt="${name} landscape" />
+      <h3>${name}</h3>
+      <p><strong>Capital:</strong> ${capital}</p>
+      <p><strong>Population:</strong> ${population}</p>
+      <p><strong>Currency:</strong> ${currency}</p>
+      <p><strong>Languages:</strong> ${language}</p>
+      <p><strong>Known for:</strong> ${known}</p>
+      <p><strong>Best time to visit:</strong> ${bestTime}</p>
+    `;
+    container.appendChild(card);
+  });
+}
