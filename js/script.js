@@ -84,6 +84,52 @@ function renderCards(cards) {
       <p><strong>Population:</strong> ${population}</p>
       <p><strong>Currency:</strong> ${currency}</p>
       <p><strong>Languages:</strong> ${language}</p>
+       <p><strong>Known for:</strong> ${known}</p>
+      <p><strong>Best time to visit:</strong> ${bestTime}</p>
+    `;
+    container.appendChild(card);
+  });
+}
+
+      // ===== WEATHER API =====
+async function getWeather() {
+  const city = document.getElementById("city-input").value.trim();
+  const resultBox = document.getElementById("weather-result");
+
+  if (!city) {
+    resultBox.style.display = "block";
+    resultBox.innerHTML = "<p>Please enter a city name.</p>";
+    return;
+  }
+
+  // Show loading message
+  resultBox.style.display = "block";
+  resultBox.innerHTML = "<p>Loading...</p>";
+
+  try {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${CONFIG.OPENWEATHER_KEY}&units=metric`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error("City not found");
+    }
+
+    const data = await response.json();
+    resultBox.style.display = "block";
+    resultBox.innerHTML = `
+      <h3>${data.name}, ${data.sys.country}</h3>
+      <p><strong>Temperature:</strong> ${data.main.temp}°C</p>
+      <p><strong>Feels like:</strong> ${data.main.feels_like}°C</p>
+      <p><strong>Condition:</strong> ${data.weather[0].description}</p>
+      <p><strong>Humidity:</strong> ${data.main.humidity}%</p>
+      <p><strong>Wind Speed:</strong> ${data.wind.speed} m/s</p>
+    `;
+  } catch (error) {
+    resultBox.style.display = "block";
+    resultBox.innerHTML = "<p>City not found. Please try again.</p>";
+  }
+}
+
       <p><strong>Known for:</strong> ${known}</p>
       <p><strong>Best time to visit:</strong> ${bestTime}</p>
     `;
