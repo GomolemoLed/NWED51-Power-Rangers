@@ -315,4 +315,70 @@ async function convertCurrency() {
   } catch (error) {
     resultBox.innerHTML = "<p>Conversion failed. Please try again.</p>";
   }
+}// Validates the travel details form and displays a trip summary with booking links
+function planTrip(event) {
+  event.preventDefault();
+
+  const destinationInput = document.getElementById("booking-destination");
+  const departureCityInput = document.getElementById("departure-city");
+  const departureDateInput = document.getElementById("departure-date");
+  const returnDateInput = document.getElementById("return-date");
+  const travellersInput = document.getElementById("travellers");
+  const budgetSelect = document.getElementById("budget");
+  const resultBox = document.getElementById("booking-result");
+
+  if (
+    !destinationInput ||
+    !departureCityInput ||
+    !departureDateInput ||
+    !returnDateInput ||
+    !travellersInput ||
+    !budgetSelect ||
+    !resultBox
+  ) {
+    return;
+  }
+
+  const destination = destinationInput.value.trim();
+  const departureCity = departureCityInput.value.trim();
+  const departureDate = departureDateInput.value;
+  const returnDate = returnDateInput.value;
+  const travellers = travellersInput.value;
+  const budget = budgetSelect.value;
+
+  if (
+    !destination ||
+    !departureCity ||
+    !departureDate ||
+    !returnDate ||
+    !travellers ||
+    !budget
+  ) {
+    resultBox.style.display = "block";
+    resultBox.innerHTML = "<p>Please complete all travel details before planning your trip.</p>";
+    return;
+  }
+
+  if (new Date(returnDate) < new Date(departureDate)) {
+    resultBox.style.display = "block";
+    resultBox.innerHTML = "<p>Return date must be after the departure date.</p>";
+    return;
+  }
+
+  const bookingLinks = getBookingLinks(destination);
+
+  resultBox.style.display = "block";
+  resultBox.innerHTML = `
+    <h3>Your Trip Summary</h3>
+    <p><strong>Destination:</strong> ${destination}</p>
+    <p><strong>Departure city:</strong> ${departureCity}</p>
+    <p><strong>Travel dates:</strong> ${departureDate} to ${returnDate}</p>
+    <p><strong>Travellers:</strong> ${travellers}</p>
+    <p><strong>Budget:</strong> ${budget}</p>
+    <div class="quick-links">
+      <a href="${bookingLinks.hotels}" target="_blank" rel="noopener">Book hotels on Booking.com</a>
+      <a href="${bookingLinks.flights}" target="_blank" rel="noopener">Find flights on Skyscanner</a>
+      <a href="${bookingLinks.packages}" target="_blank" rel="noopener">View packages on Expedia</a>
+    </div>
+  `;
 }
