@@ -40,7 +40,134 @@ function normaliseText(value) {
 // Generates Booking.com, Skyscanner, and Expedia links for a given destination
 function getBookingLinks(destination) {
   const encodedDestination = encodeURIComponent(destination);
+// Builds the HTML markup for a country card using static data and REST Countries API data
+function buildCountryMarkup(country) {
+  const capital = country.apiData?.capital?.[0] || "N/A";
+  const population = country.apiData?.population?.toLocaleString() || "N/A";
+  const currency = country.apiData?.currencies
+    ? ${Object.values(country.apiData.currencies)[0]?.name} (${Object.keys(country.apiData.currencies)[0]})
+    : "N/A";
+  const language = country.apiData?.languages
+    ? Object.values(country.apiData.languages).join(", ")
+    : "N/A";
+  const bookingLinks = getBookingLinks(country.name);
 
+  return `
+    <img src="${country.image}" alt="${country.name} landscape" />
+    <h3>${country.name}</h3>
+    <p><strong>Capital:</strong> ${capital}</p>
+    <p><strong>Population:</strong> ${population}</p>
+    <p><strong>Currency:</strong> ${currency}</p>
+    <p><strong>Languages:</strong> ${language}</p>
+    <p><strong>Known for:</strong> ${country.known}</p>
+    <p><strong>Best time to visit:</strong> ${country.bestTime}</p>
+    <div class="quick-links">
+      <a href="${bookingLinks.hotels}" target="_blank" rel="noopener">Hotels on Booking.com</a>
+      <a href="${bookingLinks.flights}" target="_blank" rel="noopener">Flights on Skyscanner</a>
+      <a href="${bookingLinks.packages}" target="_blank" rel="noopener">Packages on Expedia</a>
+    </div>
+  `;
+}
+
+// Fetches country data from the REST Countries API by country name
+async function fetchCountryData(countryName) {
+  try {
+    const response = await fetch(
+      https://restcountries.com/v3.1/name/${countryName}?fullText=true
+    );
+
+    if (!response.ok) {
+      throw new Error("Country not found");
+    }
+
+    const data = await response.json();
+    return data[0];
+  } catch (error) {
+    console.error(Failed to fetch data for ${countryName}:, error);
+    return null;
+  }
+}
+
+// Fetches REST Countries API data for all SADC countries and renders them as cards
+async function displayCountries() {
+  const container = document.getElementById("countries-container");
+
+  if (!container) {
+    return;
+  }
+
+  if (!navigator.onLine) {
+    container.innerHTML =
+      "<p>No internet connection. Country information cannot load right now.</p>";
+    return;
+  }
+
+  container.innerHTML = "<p>Loading countries...</p>";
+
+  const cards = await Promise.all(
+    sadcCountries.map(async (country) => {
+      const apiData = await fetchCountryData(country.name);
+      return { ...country, apiData };
+    })
+  );
+
+  container.innerHTML = "";
+
+  cards.forEach(({ name, known, bestTime, image, apiData }) => {
+    const card = document.createElement("div");
+    card.className = "country-card";
+    card.innerHTML = buildCountryMarkup({ name, known, bestTime, image, apiData });
+    container.appendChild(card);
+  });
+
+  if (!cards.length) {
+    container.innerHTML = "<p>No country data is available right now.</p>";
+  }
+}
+
+// Searches the sadcCountries array for a match and fetches its REST Countries API data
+async function searchDestination() {
+  const destinationInput = document.getElementById("destination-input");
+  const resultBox = document.getElementById("search-result");
+
+  if (!destinationInput || !resultBox) {
+    return;
+  }
+
+  const query = normaliseText(destinationInput.value);
+
+  if (!query) {
+    resultBox.style.display = "block";
+    resultBox.innerHTML = "<p>Please enter a destination to search for.</p>";
+    return;
+  }
+
+  const matchedCountry = sadcCountries.find((country) =>
+    normaliseText(country.name).includes(query)
+  );
+
+  if (!matchedCountry) {
+    resultBox.style.display = "block";
+    resultBox.innerHTML =
+      "<p>Destination not found in the current SADC list. Try South Africa, Botswana, Zimbabwe, Namibia, or Mozambique.</p>";
+    return;
+  }
+
+  resultBox.style.display = "block";
+  resultBox.innerHTML = "<p>Searching destination...</p>";
+
+  let apiData = null;
+
+  if (navigator.onLine) {
+    apiData = await fetchCountryData(matchedCountry.name);
+  }
+
+  resultBox.innerHTML = `
+    <div class="country-card search-card">
+      ${buildCountryMarkup({ ...matchedCountry, apiData })}
+    </div>
+  `;
+}
   return {
     hotels: `https://www.booking.com/searchresults.html?ss=${encodedDestination}`,
     flights: `https://www.skyscanner.net/transport/flights-to/${encodedDestination}`,
