@@ -177,3 +177,52 @@ async function searchDestination() {
   `;
 }
   
+// Fetches current weather for a city using the OpenWeatherMap API
+async function getWeather() {
+  const cityInput = document.getElementById("city-input");
+  const resultBox = document.getElementById("weather-result");
+
+  if (!cityInput || !resultBox) {
+    return;
+  }
+
+  const city = cityInput.value.trim();
+
+  if (!city) {
+    resultBox.style.display = "block";
+    resultBox.innerHTML = "<p>Please enter a city name.</p>";
+    return;
+  }
+
+  if (!navigator.onLine) {
+    resultBox.style.display = "block";
+    resultBox.innerHTML = "<p>No internet connection.</p>";
+    return;
+  }
+
+  resultBox.style.display = "block";
+  resultBox.innerHTML = "<p>Loading...</p>";
+
+  try {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
+      city
+    )}&appid=${CONFIG.OPENWEATHER_KEY}&units=metric`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error("City not found");
+    }
+
+    const data = await response.json();
+    resultBox.innerHTML = `
+      <h3>${data.name}, ${data.sys.country}</h3>
+      <p><strong>Temperature:</strong> ${data.main.temp} degrees C</p>
+      <p><strong>Feels like:</strong> ${data.main.feels_like} degrees C</p>
+      <p><strong>Condition:</strong> ${data.weather[0].description}</p>
+      <p><strong>Humidity:</strong> ${data.main.humidity}%</p>
+      <p><strong>Wind Speed:</strong> ${data.wind.speed} m/s</p>
+    `;
+  } catch (error) {
+    resultBox.innerHTML = "<p>City not found. Please try again.</p>";
+  }
+}
