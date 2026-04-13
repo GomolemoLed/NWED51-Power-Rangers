@@ -62,3 +62,66 @@ function initialiseLoginPage() {
     loginForm.classList.remove("hidden");
     setAuthMessage("");
   });
+
+loginForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const username = document.getElementById("login-username").value.trim();
+    const password = document.getElementById("login-password").value;
+    const saved = getStoredCredentials();
+
+    if (!saved.username || !saved.password) {
+      setAuthMessage("Create an account first before logging in.", true);
+      return;
+    }
+
+    if (username === saved.username && password === saved.password) {
+      localStorage.setItem(STORAGE_KEYS.session, "true");
+      redirectTo("home.html");
+      return;
+    }
+
+    setAuthMessage("Incorrect username or password.", true);
+  });
+
+  registerForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const username = document.getElementById("register-username").value.trim();
+    const password = document.getElementById("register-password").value;
+    const confirmPassword = document.getElementById("confirm-password").value;
+
+    if (!username || !password) {
+      setAuthMessage("Please fill in all account fields.", true);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setAuthMessage("Passwords do not match.", true);
+      return;
+    }
+
+    localStorage.setItem(STORAGE_KEYS.username, username);
+    localStorage.setItem(STORAGE_KEYS.password, password);
+    localStorage.setItem(STORAGE_KEYS.session, "true");
+    redirectTo("home.html");
+  });
+
+  if (window.location.hash === "#register") {
+    loginForm.classList.add("hidden");
+    registerForm.classList.remove("hidden");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const currentPage = window.location.pathname.split("/").pop() || "index.html";
+
+  if (currentPage === "login.html") {
+    initialiseLoginPage();
+  }
+
+  if (currentPage === "home.html" || currentPage === "about.html") {
+    requireAuth();
+    attachLogoutHandlers();
+  }
+});
