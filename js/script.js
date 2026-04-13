@@ -40,6 +40,14 @@ function normaliseText(value) {
 // Generates Booking.com, Skyscanner, and Expedia links for a given destination
 function getBookingLinks(destination) {
   const encodedDestination = encodeURIComponent(destination);
+
+   return {
+    hotels: `https://www.booking.com/searchresults.html?ss=${encodedDestination}`,
+    flights: `https://www.skyscanner.net/transport/flights-to/${encodedDestination}`,
+    packages: `https://www.expedia.com/Hotel-Search?destination=${encodedDestination}`
+  };
+}
+
 // Builds the HTML markup for a country card using static data and REST Countries API data
 function buildCountryMarkup(country) {
   const capital = country.apiData?.capital?.[0] || "N/A";
