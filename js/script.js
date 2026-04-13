@@ -268,3 +268,51 @@ async function loadCurrencies() {
   }
 }
 
+// Converts an amount between two currencies using the ExchangeRate API
+async function convertCurrency() {
+  const amountInput = document.getElementById("amount");
+  const fromSelect = document.getElementById("from-currency");
+  const toSelect = document.getElementById("to-currency");
+  const resultBox = document.getElementById("currency-result");
+
+  if (!amountInput || !fromSelect || !toSelect || !resultBox) {
+    return;
+  }
+
+  const amount = amountInput.value;
+  const from = fromSelect.value;
+  const to = toSelect.value;
+
+  if (!amount) {
+    resultBox.style.display = "block";
+    resultBox.innerHTML = "<p>Please enter an amount.</p>";
+    return;
+  }
+
+  if (!navigator.onLine) {
+    resultBox.style.display = "block";
+    resultBox.innerHTML = "<p>No internet connection.</p>";
+    return;
+  }
+
+  resultBox.style.display = "block";
+  resultBox.innerHTML = "<p>Converting...</p>";
+
+  try {
+    const url = `https://v6.exchangerate-api.com/v6/${CONFIG.EXCHANGERATE_KEY}/pair/${from}/${to}/${amount}`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error("Conversion failed");
+    }
+
+    const data = await response.json();
+    resultBox.innerHTML = `
+      <h3>Conversion Result</h3>
+      <p>${amount} ${from} = <strong>${data.conversion_result} ${to}</strong></p>
+      <p><strong>Exchange Rate:</strong> 1 ${from} = ${data.conversion_rate} ${to}</p>
+    `;
+  } catch (error) {
+    resultBox.innerHTML = "<p>Conversion failed. Please try again.</p>";
+  }
+}
