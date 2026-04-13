@@ -226,3 +226,45 @@ async function getWeather() {
     resultBox.innerHTML = "<p>City not found. Please try again.</p>";
   }
 }
+
+// Fetches the list of supported currency codes from the ExchangeRate API and populates both dropdowns
+async function loadCurrencies() {
+  const fromSelect = document.getElementById("from-currency");
+  const toSelect = document.getElementById("to-currency");
+
+  if (!fromSelect || !toSelect) {
+    return;
+  }
+
+  if (!navigator.onLine) {
+    fromSelect.innerHTML = "<option>No internet connection</option>";
+    toSelect.innerHTML = "<option>No internet connection</option>";
+    return;
+  }
+
+  try {
+    const url = `https://v6.exchangerate-api.com/v6/${CONFIG.EXCHANGERATE_KEY}/codes`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error("Failed to load currencies");
+    }
+
+    const data = await response.json();
+    fromSelect.innerHTML = "";
+    toSelect.innerHTML = "";
+
+    data.supported_codes.forEach(([code, name]) => {
+      fromSelect.innerHTML += `<option value="${code}">${code} - ${name}</option>`;
+      toSelect.innerHTML += `<option value="${code}">${code} - ${name}</option>`;
+    });
+
+    fromSelect.value = "USD";
+    toSelect.value = "ZAR";
+  } catch (error) {
+    console.error("Failed to load currencies:", error);
+    fromSelect.innerHTML = "<option>Failed to load</option>";
+    toSelect.innerHTML = "<option>Failed to load</option>";
+  }
+}
+
