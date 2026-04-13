@@ -384,3 +384,49 @@ function planTrip(event) {
     </div>
   `;
 }
+
+// Runs on page load — attaches all event listeners, monitors network status, and initialises country cards and currency dropdowns
+document.addEventListener("DOMContentLoaded", function () {
+  const searchButton = document.getElementById("search-btn");
+  const weatherButton = document.getElementById("weather-btn");
+  const convertButton = document.getElementById("convert-btn");
+  const bookingForm = document.getElementById("booking-form");
+  const networkStatus = document.getElementById("network-status");
+
+  // Shows or hides the network status banner based on connectivity
+  function updateNetworkStatus() {
+    if (!networkStatus) {
+      return;
+    }
+
+    if (navigator.onLine) {
+      networkStatus.classList.add("hidden");
+    } else {
+      networkStatus.classList.remove("hidden");
+      networkStatus.textContent = "No internet connection.";
+    }
+  }
+
+  if (searchButton) {
+    searchButton.addEventListener("click", searchDestination);
+  }
+
+  if (weatherButton) {
+    weatherButton.addEventListener("click", getWeather);
+  }
+
+  if (convertButton) {
+    convertButton.addEventListener("click", convertCurrency);
+  }
+
+  if (bookingForm) {
+    bookingForm.addEventListener("submit", planTrip);
+  }
+
+  window.addEventListener("online", updateNetworkStatus);
+  window.addEventListener("offline", updateNetworkStatus);
+  updateNetworkStatus();
+
+  displayCountries();
+  loadCurrencies();
+});
