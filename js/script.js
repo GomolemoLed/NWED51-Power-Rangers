@@ -315,7 +315,9 @@ async function convertCurrency() {
   } catch (error) {
     resultBox.innerHTML = "<p>Conversion failed. Please try again.</p>";
   }
-}// Validates the travel details form and displays a trip summary with booking links
+}
+
+// Validates the travel details form and displays a trip summary with booking links
 function planTrip(event) {
   event.preventDefault();
 
