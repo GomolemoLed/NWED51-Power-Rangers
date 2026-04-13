@@ -1,4 +1,4 @@
-// ===== SADC COUNTRIES DATA =====
+// Array of 5 SADC countries with static travel info and image URLs
 const sadcCountries = [
   {
     name: "South Africa",
@@ -32,107 +32,18 @@ const sadcCountries = [
   }
 ];
 
-// ===== FETCH FROM REST COUNTRIES API =====
-async function fetchCountryData(countryName) {
-  try {
-    const response = await fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`);
-    if (!response.ok) throw new Error("Country not found");
-    const data = await response.json();
-    return data[0];
-  } catch (error) {
-    console.error(`Failed to fetch data for ${countryName}:`, error);
-    return null;
-  }
+// Trims whitespace and converts a string to lowercase for comparison
+function normaliseText(value) {
+  return value.trim().toLowerCase();
 }
 
-// ===== COUNTRY SEARCH =====
-let allCards = [];
+// Generates Booking.com, Skyscanner, and Expedia links for a given destination
+function getBookingLinks(destination) {
+  const encodedDestination = encodeURIComponent(destination);
 
-// ===== DISPLAY COUNTRY CARDS =====
-async function displayCountries() {
-  const container = document.getElementById("countries-container");
-  container.innerHTML = "<p>Loading countries...</p>";
-
-  allCards = await Promise.all(sadcCountries.map(async (country) => {
-    const apiData = await fetchCountryData(country.name);
-    return { ...country, apiData };
-  }));
-
-  renderCards(allCards);
-}
-
-function renderCards(cards) {
-  const container = document.getElementById("countries-container");
-  container.innerHTML = "";
-
-  cards.forEach(({ name, known, bestTime, image, apiData }) => {
-    const capital = apiData?.capital?.[0] || "N/A";
-    const population = apiData?.population?.toLocaleString() || "N/A";
-    const currency = apiData
-      ? Object.values(apiData.currencies)[0]?.name + " (" + Object.keys(apiData.currencies)[0] + ")"
-      : "N/A";
-    const language = apiData
-      ? Object.values(apiData.languages).join(", ")
-      : "N/A";
-
-    const card = document.createElement("div");
-    card.classList.add("country-card");
-    card.innerHTML = `
-      <img src="${image}" alt="${name} landscape" />
-      <h3>${name}</h3>
-      <p><strong>Capital:</strong> ${capital}</p>
-      <p><strong>Population:</strong> ${population}</p>
-      <p><strong>Currency:</strong> ${currency}</p>
-      <p><strong>Languages:</strong> ${language}</p>
-       <p><strong>Known for:</strong> ${known}</p>
-      <p><strong>Best time to visit:</strong> ${bestTime}</p>
-    `;
-    container.appendChild(card);
-  });
-}
-
-      // ===== WEATHER API =====
-async function getWeather() {
-  const city = document.getElementById("city-input").value.trim();
-  const resultBox = document.getElementById("weather-result");
-
-  if (!city) {
-    resultBox.style.display = "block";
-    resultBox.innerHTML = "<p>Please enter a city name.</p>";
-    return;
-  }
-
-  // Show loading message
-  resultBox.style.display = "block";
-  resultBox.innerHTML = "<p>Loading...</p>";
-
-  try {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${CONFIG.OPENWEATHER_KEY}&units=metric`;
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error("City not found");
-    }
-
-    const data = await response.json();
-    resultBox.style.display = "block";
-    resultBox.innerHTML = `
-      <h3>${data.name}, ${data.sys.country}</h3>
-      <p><strong>Temperature:</strong> ${data.main.temp}°C</p>
-      <p><strong>Feels like:</strong> ${data.main.feels_like}°C</p>
-      <p><strong>Condition:</strong> ${data.weather[0].description}</p>
-      <p><strong>Humidity:</strong> ${data.main.humidity}%</p>
-      <p><strong>Wind Speed:</strong> ${data.wind.speed} m/s</p>
-    `;
-  } catch (error) {
-    resultBox.style.display = "block";
-    resultBox.innerHTML = "<p>City not found. Please try again.</p>";
-  }
-}
-
-      <p><strong>Known for:</strong> ${known}</p>
-      <p><strong>Best time to visit:</strong> ${bestTime}</p>
-    `;
-    container.appendChild(card);
-  });
+  return {
+    hotels: `https://www.booking.com/searchresults.html?ss=${encodedDestination}`,
+    flights: `https://www.skyscanner.net/transport/flights-to/${encodedDestination}`,
+    packages: `https://www.expedia.com/Hotel-Search?destination=${encodedDestination}`
+  };
 }
