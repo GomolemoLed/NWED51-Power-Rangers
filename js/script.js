@@ -176,9 +176,4 @@ async function searchDestination() {
     </div>
   `;
 }
-  return {
-    hotels: `https://www.booking.com/searchresults.html?ss=${encodedDestination}`,
-    flights: `https://www.skyscanner.net/transport/flights-to/${encodedDestination}`,
-    packages: `https://www.expedia.com/Hotel-Search?destination=${encodedDestination}`
-  };
-}
+  
