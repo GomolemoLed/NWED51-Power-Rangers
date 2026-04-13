@@ -1,5 +1,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=git,vue,node,flask,linux,macos,react,vuejs,django,python,angular,eclipse,gitbook,pycharm,windows,pycharm+all,pycharm+iml,reactnative,tortoisegit,visualstudio,visualstudiocode,r
 
+js/config.js
+
 ### Angular ###
 ## Angular ##
 # compiled output

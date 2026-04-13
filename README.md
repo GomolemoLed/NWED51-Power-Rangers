@@ -1,55 +1,115 @@
-# NWED51
+SADC MorphoAdventures
+NWED513 Web Development 1 Group Assignment 2026Group: ICT Power Rangers 
+Institution: Sol Plaatje University
 
-## NWED51 - Web Development
+About the Website
+SADC MorphoAdventures is a travel information website designed to help financially independent individuals. Such as young professionals, entrepreneurs, and middle-to-high-income earners. Plan trips across Southern African Development Community (SADC) countries more efficiently.
 
-[![Code License](https://img.shields.io/badge/Code%20License-GPLv2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Follow%20%40iammelvink-blue.svg?style=social&logo=linkedin)](https://www.linkedin.com/in/iammelvink)
+The website brings together destination information, live weather data, currency conversion, and trusted booking platforms in one place, removing the need to visit multiple websites when planning a trip.
 
-## Overview
+Website Pages
 
-This is the codebase produced for the **NWED51 Web Development** course
+Landing (index.html) Entry point. Overview of the website and links to Login and About.
 
-Written in **Placeholder**
+Login (login.html) Register a new account or log in with an existing one
 
-1. Methodologies/Project Management:
+Home (home.html) Main protected page. Access all travel tools after logging in.
 
-   - Agile
+About (about.html) Purpose statement, customer comments, and social media links.
 
-2. Coding Practices:
+Features
 
-   - OOP (Object Oriented Programming)
-   - MVC (Model View Controller)
+Destination Search - Search for a SADC country and view its details
 
-3. Programming Languages/Frameworks:
+SADC Countries - Browse 5 SADC country cards with live data from REST Countries API
 
-   - Placeholder
+Weather Checker - Enter any city and get live weather conditions
 
-## Instructions
+Currency Converter - Convert between 150+ currencies using live exchange rates
 
-1. Make sure you have these installed
+Travel Details Form - Enter trip details and get a personalised trip summary with booking links
 
-2. Clone `ONLY THE LATEST COMMIT` of this repository into your local machine using the terminal (mac) or
-   [Gitbash (PC)](https://git-scm.com/download/win 'Gitbash (PC)') `to save storage space`
+Trusted Booking Platforms - Direct links to Skyscanner, Expedia, and Booking.com
 
-   ```sh
-   git clone https://github.com/iammelvink/NWED51.git --depth=1
-   ```
+Authentication - Register and login system using browser localStorage
 
-## Author(s)
+Offline Detection - Banner alerts the user when there is no internet connection
 
-"Group members and lecturer"
+APIs Used
 
-[Melvin Kisten](https://github.com/iammelvink 'Melvin Kisten\'s GitHub page')
+REST Countries - Fetches country data (capital, population, currency, languages)
+Endpoint: https://restcountries.com/v3.1/name/{country}
 
-GitHub: @"Group members"
+OpenWeatherMap - Fetches live weather data for any city
+Endpoint: https://api.openweathermap.org/data/2.5/weather
 
-LinkedIn: [Melvin Kisten](https://www.linkedin.com/in/iammelvink 'Melvin Kisten\'s LinkedIn page')
+ExchangeRate API - Fetches live currency codes and conversion rates
+Endpoint: https://v6.exchangerate-api.com/v6/{key}/pair/{from}/{to}
 
-## Acknowledgments
+Unsplash API - Fetches high-quality travel images for SADC countries
+Endpoint: https://api.unsplash.com/search/photos?query={country}
 
-To my lecturer [Melvin Kisten](https://www.linkedin.com/in/iammelvink 'Melvin Kisten\'s LinkedIn page') for their guidance
+Project Structure
 
-## More Stuff
+index.html          Landing page
+login.html          Login and registration page
+home.html           Protected home page (travel tools)
+about.html          About page
+README.md           Project documentation
+css/
+style.css           All styling (responsive, Flexbox, Grid)
+js/
+config.js           API keys configuration
+script.js           All website functionality
+auth.js             Authentication logic
 
-Check out some other stuff on
-[Melvin Kisten](https://github.com/iammelvink 'Melvin Kisten\'s GitHub page')
+How to Run
+No server or installation is required. The website runs entirely in the browser.
+
+Clone the repository:
+git clone https://github.com/GomolemoLed/NWED51-Power-Rangers.git
+
+Open the project folder in VS Code
+
+Open index.html with the Live Server extension
+(Right-click index.html and select Open with Live Server)
+
+The website will open in your browser at http://127.0.0.1:5500
+
+Environment Configuration
+API keys are stored in js/config.js. Before running the website, make sure this file contains valid keys:
+
+const CONFIG = {
+  OPENWEATHER_KEY: "your_openweathermap_key_here",
+  EXCHANGERATE_KEY: "your_exchangerate_key_here",
+  UNSPLASH_KEY: "your_unsplash_key_here"
+};
+
+Tools Used
+Visual Studio Code - Code editor
+Live Server (VS Code extension) - Local development server
+Git - Version control
+GitHub - Remote repository and submission
+Chrome DevTools - Testing and debugging
+Google Fonts (Poppins) - Typography
+
+Technologies
+HTML5 - Semantic page structure
+CSS3 - Responsive design using Flexbox and Grid
+JavaScript (ES6+) - Async/await, fetch API, DOM manipulation, localStorage
+
+Group Members
+Amandla Mthethwa 202610014@spu.ac.za
+Asaneliswe Zikalala 202604069@spu.ac.za
+Boledi Peatunia Mankge 202608735@spu.ac.za
+Kamogelo Shawn Sekoto 202607485@spu.ac.za
+Koketso Ramoroka 202603139@spu.ac.za
+Mokgethwa Moses Moemi 202602751@spu.ac.za
+Ofentse Africa Modupe 202649044@spu.ac.za
+Olwethu Lwandle Gwambi 202556624@spu.ac.za
+Omphile Gomolemo Ledibane 202605446@spu.ac.za
+Phetolo Phokane 202609840@spu.ac.za
+
+License
+This project was developed for academic purposes at Sol Plaatje University.
+© 2026 ICT Power Rangers

@@ -1,60 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title></title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="css/style.css" rel="stylesheet">
-    </head>
-    <body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SADC MorphoAdventures | Landing</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://cdn-icons-png.flaticon.com/512/201/201623.png"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="page-overlay"></div>
 
-        <nav>
-      <div class="logo"> SADC Morpho Adventures</div>
-      <ul>
-        <li><a href="#countries">Countries</a></li>
-        <li><a href="#weather">Weather</a></li>
-        <li><a href="#currency">Currency</a></li>
-        <li><a href="#flights">Flights</a></li>
-      </ul>
-    </nav>
+    <div class="page-shell">
+      <nav class="main-nav">
+        <div class="logo">SADC MorphoAdventures</div>
+        <ul>
+          <li><a href="index.html">Landing</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="about.html">About</a></li>
+          <li>
+            <a class="profile-icon-link" href="login.html#register" aria-label="Create profile account">
+              <span class="profile-icon">+</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
 
-    <section id="hero">
-      <h1>Explore Southern Africa With Morpho Adventures</h1>
-      <p>Discover travel information for SADC countries</p>
-    </section>
+      <main class="landing-main">
 
-        <section id="countries">
-      <h2>SADC Countries</h2>
-      <div id="countries-container"></div>
-    </section>
+        <!-- Hero section introducing the site and prompting the user to log in or learn more -->
+        <section class="landing-hero glass-panel">
+          <p class="eyebrow">Southern Africa Travel Hub</p>
+          <h1>Welcome to SADC MorphoAdventures</h1>
+          <p class="lead">
+            This platform brings key travel tools together for travelers who want
+            one simple place to begin planning. The full website is locked until
+            the user logs in.
+          </p>
+          <p class="login-note">
+            After logging in, users can get more insight into our website,
+            explore travel tools, and access the protected pages.
+          </p>
+          <div class="cta-row">
+            <a class="btn-link" href="login.html">Go to Login</a>
+            <a class="btn-link secondary-link" href="about.html">Learn More</a>
+            <a class="btn-link profile-btn" href="login.html#register">Create Profile</a>
+          </div>
+        </section>
 
-    <section id="weather">
-      <h2>Check Weather</h2>
-      <input type="text" id="city-input" placeholder="Enter a city..." />
-      <button id="weather-btn">Search</button>
-      <div id="weather-result"></div>
-    </section>
+        <!-- Overview cards summarising each page of the website -->
+        <section class="feature-grid">
+          <article class="feature-card">
+            <h2>Landing Page</h2>
+            <p>Start here and choose where to go next in the website.</p>
+          </article>
+          <article class="feature-card">
+            <h2>Login Page</h2>
+            <p>Log in or create an account that stays available in your browser.</p>
+          </article>
+          <article class="feature-card">
+            <h2>Home Page</h2>
+            <p>View countries, weather, currency conversion, and travel links.</p>
+          </article>
+          <article class="feature-card">
+            <h2>About Page</h2>
+            <p>Read what the website does and which external travel sites it uses.</p>
+          </article>
+        </section>
 
-    <section id="currency">
-      <h2>Currency Converter</h2>
-      <input type="number" id="amount" placeholder="Amount" />
-      <select id="from-currency"></select>
-      <select id="to-currency"></select>
-      <button id="convert-btn">Convert</button>
-      <div id="currency-result"></div>
-    </section>
-        
-    <section id="flights">
-      <h2>Search Flights</h2>
-      <input type="text" id="origin" placeholder="From (e.g. JNB)" />
-      <input type="text" id="destination" placeholder="To (e.g. CPT)" />
-      <input type="date" id="travel-date" />
-      <button id="flight-btn">Search Flights</button>
-      <div id="flights-result"></div>
-    </section>
+      </main>
 
-    <footer>
-      <p>&copy; 2026 SADC MorphoAdventures | ICT-Power-Rangers</p>
-    </footer>
-    </body>
+      <footer class="site-footer">
+        <p>&copy; 2026 POWER RANGERS</p>
+      </footer>
+    </div>
+  </body>
 </html>
