@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SADC MorphoAdventures | Login</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://cdn-icons-png.flaticon.com/512/201/201623.png"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="page-overlay"></div>
+
+    <div class="page-shell">
+      <nav class="main-nav">
+        <div class="logo">SADC MorphoAdventures</div>
+        <ul>
+          <li><a href="index.html">Landing</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </nav>
+
+      <main class="auth-screen auth-page">
+
+        <!-- Login and registration card — toggles between the two forms -->
+        <section class="auth-card">
+          <h1>Login Page</h1>
+          <p class="auth-subtitle">
+            Enter your username and password, or create an account if you are a new user.
+          </p>
+
+          <form id="login-form" class="auth-form">
+            <label for="login-username">Username</label>
+            <input
+              type="text"
+              id="login-username"
+              placeholder="Enter your username"
+              autocomplete="username"
+              required
+            />
+
+            <label for="login-password">Password</label>
+            <input
+              type="password"
+              id="login-password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            />
+
+            <button type="submit">Log In</button>
+            <button type="button" id="show-register-btn" class="secondary-btn">
+              Create an Account
+            </button>
+          </form>
+
+          <form id="register-form" class="auth-form hidden">
+            <label for="register-username">New Username</label>
+            <input
+              type="text"
+              id="register-username"
+              placeholder="Choose a username"
+              autocomplete="username"
+              required
+            />
+
+            <label for="register-password">New Password</label>
+            <input
+              type="password"
+              id="register-password"
+              placeholder="Choose a password"
+              autocomplete="new-password"
+              required
+            />
+
+            <label for="confirm-password">Confirm Password</label>
+            <input
+              type="password"
+              id="confirm-password"
+              placeholder="Confirm password"
+              autocomplete="new-password"
+              required
+            />
+
+            <button type="submit">Create Account</button>
+            <button type="button" id="show-login-btn" class="secondary-btn">
+              Back to Login
+            </button>
+          </form>
+
+          <p id="auth-message" class="auth-message"></p>
+        </section>
+
+      </main>
+
+      <footer class="site-footer">
+        <p>&copy; 2026 POWER RANGERS</p>
+      </footer>
+    </div>
+
+    <script src="js/auth.js"></script>
+  </body>
+</html>
