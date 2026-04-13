@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SADC MorphoAdventures | Home</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://cdn-icons-png.flaticon.com/512/201/201623.png"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="page-overlay"></div>
+
+    <div class="page-shell">
+      <nav class="main-nav">
+        <div class="logo">SADC MorphoAdventures</div>
+        <ul>
+          <li><a href="index.html">Landing</a></li>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><button type="button" class="logout-btn" aria-label="Log out">Logout</button></li>
+        </ul>
+      </nav>
+
+      <div id="network-status" class="network-status hidden" aria-live="polite">
+        No internet connection.
+      </div>
+
+      <main class="content-page">
+
+        <!-- Hero banner introducing the site to the logged-in user -->
+        <section id="hero" class="glass-panel hero-panel">
+          <h1>Explore Southern Africa</h1>
+          <h3>Travel smarter across SADC countries</h3>
+          <p class="hero-text">
+            Discover destinations, check weather, convert currencies, and plan your
+            next trip from one place.
+          </p>
+        </section>
+
+        <!-- Brief overview of what the home page offers after login -->
+        <section class="content-section">
+          <h2>Website Insights</h2>
+          <div class="about-card">
+            <p>
+              After logging in, users can get more insight into our website by
+              exploring travel destinations, checking live weather, converting
+              currencies, and opening trusted external travel links.
+            </p>
+            <p>
+              This protected home page is designed to give travelers a clearer,
+              more useful experience once they have signed in.
+            </p>
+          </div>
+        </section>
+
+        <!-- Destination search tool using the REST Countries API -->
+        <section id="search" class="content-section light-panel">
+          <h2>Destination Search</h2>
+          <div class="tool-panel">
+            <input
+              type="text"
+              id="destination-input"
+              placeholder="Search for a destination"
+              aria-label="Search for a destination"
+            />
+            <button id="search-btn" type="button" aria-label="Search destination">Search Destination</button>
+            <div id="search-result" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <!-- Grid display of all 8 SADC countries populated dynamically by script.js -->
+        <section id="countries" class="content-section">
+          <h2>SADC Countries</h2>
+          <div id="countries-container"></div>
+        </section>
+
+        <!-- Weather lookup tool using the OpenWeatherMap API -->
+        <section id="weather" class="content-section light-panel">
+          <h2>Weather</h2>
+          <div class="tool-panel">
+            <input
+              type="text"
+              id="city-input"
+              placeholder="Enter a city name"
+              aria-label="Enter a city name"
+            />
+            <button id="weather-btn" type="button" aria-label="Check weather">Check Weather</button>
+            <div id="weather-result" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <!-- Currency converter tool using the ExchangeRate API -->
+        <section id="currency" class="content-section">
+          <h2>Currency Converter</h2>
+          <div class="tool-panel">
+            <input
+              type="number"
+              id="amount"
+              placeholder="Enter amount"
+              min="0"
+              step="0.01"
+              aria-label="Enter amount"
+            />
+            <select id="from-currency" aria-label="From currency"></select>
+            <select id="to-currency" aria-label="To currency"></select>
+            <button id="convert-btn" type="button" aria-label="Convert currency">Convert</button>
+            <div id="currency-result" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <!-- External links to trusted third-party flight and booking platforms -->
+        <section id="flights" class="content-section light-panel">
+          <h2>Trusted Booking Platforms</h2>
+          <p class="flights-text">Continue your booking on reliable travel platforms.</p>
+          <div class="flights-links">
+            <a href="https://www.skyscanner.net/" target="_blank" rel="noopener">Skyscanner</a>
+            <a href="https://www.expedia.com/" target="_blank" rel="noopener">Expedia</a>
+            <a href="https://www.booking.com/" target="_blank" rel="noopener">Booking.com</a>
+          </div>
+        </section>
+
+        <!-- Travel details form for capturing trip info and generating a plan -->
+        <section id="booking" class="content-section">
+          <h2>Travel Details</h2>
+          <div class="tool-panel booking-panel">
+            <form id="booking-form" class="booking-form">
+              <input
+                type="text"
+                id="booking-destination"
+                placeholder="Destination"
+                aria-label="Destination"
+              />
+              <input
+                type="text"
+                id="departure-city"
+                placeholder="Departure city"
+                aria-label="Departure city"
+              />
+              <input
+                type="date"
+                id="departure-date"
+                aria-label="Departure date"
+              />
+              <input
+                type="date"
+                id="return-date"
+                aria-label="Return date"
+              />
+              <input
+                type="number"
+                id="travellers"
+                placeholder="Number of travellers"
+                min="1"
+                aria-label="Number of travellers"
+              />
+              <select id="budget" aria-label="Budget range">
+                <option value="">Select budget</option>
+                <option value="Budget">Budget</option>
+                <option value="Standard">Standard</option>
+                <option value="Luxury">Luxury</option>
+              </select>
+              <button type="submit">Plan Trip</button>
+            </form>
+            <div id="booking-result" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <!-- Quick-access cards linking to external travel planning resources -->
+        <section class="content-section">
+          <h2>Travel Planning Resources</h2>
+          <div class="social-grid">
+            <a class="social-card" href="https://www.booking.com/" target="_blank" rel="noopener">
+              <h3>Hotels</h3>
+              <p>Use Booking.com to find accommodation before your trip.</p>
+            </a>
+            <a class="social-card" href="https://www.skyscanner.net/" target="_blank" rel="noopener">
+              <h3>Flights</h3>
+              <p>Use Skyscanner to compare flights for your destination.</p>
+            </a>
+            <a class="social-card" href="https://www.expedia.com/" target="_blank" rel="noopener">
+              <h3>Packages</h3>
+              <p>Use Expedia to explore holiday packages and travel deals.</p>
+            </a>
+          </div>
+        </section>
+
+      </main>
+
+      <footer class="site-footer">
+        <p>&copy; 2026 POWER RANGERS</p>
+      </footer>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
